@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from Functions.preprocessing import clean_text
 import os
 
@@ -14,16 +14,14 @@ model.load_files()
 @app.route("/translate", methods=["POST"])
 def translate():
     data = request.get_json()
-    sequence = model.prepocess(data["text"])
+    sequence = model.prepocess(data)
     text = model.translate_to_english(sequence)
     return jsonify({"text":text})
 
 
 @app.route("/")
 def MainApp():
-    sequence = model.prepocess("she is driving the truck")
-    print(model.translate_to_english(sequence))
-    return "<p>Zaka Endpoints</p>"
+    return render_template("index.html")
 
 
 
